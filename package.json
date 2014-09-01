@@ -1,0 +1,24 @@
+{
+  "name": "flux-connection-list",
+  "version": "0.0.1",
+  "description": "Sample app that exercises Flux",
+  "repository": "git@github.com:meagle/flux-connection-list.git",
+  "author": "Mark Eagle <meagle@gmail.com>",
+  "dependencies": {
+    "express": "3.2.x",
+    "stylus": "0.32.x",
+    "mongoose": "3.6.17",
+    "jade": "0.31.x",
+    "nib": "0.9.x",
+    "ntwitter": "0.5.0",
+    "socket.io": "1.0.x"
+  },
+  "devDependencies": {
+    "gulp": "~3.8.7"
+  },
+  "main": "./index.js",
+  "engines": {
+    "node": "0.10.x",
+    "npm": "2.0.x"
+  }
+}
