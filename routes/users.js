@@ -1,9 +1,19 @@
 var express = require('express');
+var dummy = require('dummy-json');
+var fs = require('fs');
+
 var router = express.Router();
 
-/* GET users listing. */
+router.get('/:numberOfPeople', function(req, res) {
+  var template = fs.readFileSync('./templates/dummy-connections.hbs', {encoding: 'utf8'});
+  var result = dummy.parse(template, {data: {numberOfPeople: req.params.numberOfPeople}});
+  res.send(result);
+});
+
 router.get('/', function(req, res) {
-  res.send('respond with a resource');
+  var template = fs.readFileSync('./templates/dummy-connections.hbs', {encoding: 'utf8'});
+  var result = dummy.parse(template, {data: {numberOfPeople: 200}});
+  res.send(result);
 });
 
 module.exports = router;
