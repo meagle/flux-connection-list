@@ -5,7 +5,8 @@ source = require("vinyl-source-stream")
 coffeeify = require "coffeeify"
 reactify = require "reactify"
 rename = require 'gulp-rename'
-sourceFile = "./public/coffee/**/*.coffee"
+sourceFiles = ["./public/coffee/**/*.coffee"]
+sourceFile = ["./public/coffee/app.coffee"]
 destFolder = "./public/js/"
 destFile = "bundle.js"
 
@@ -18,6 +19,16 @@ gulp.task "browserify", ->
     .pipe(rename(destFile))
     .pipe gulp.dest(destFolder)
 
+gulp.task 'watch', ->
+  gulp.watch sourceFiles, ['browserify']
+
+gulp.task "default", [
+  "browserify"
+  "watch"
+]
+
+
+# TODO: see if I can get watchify to work
 # gulp.task "watch", ->
 #   rebundle = ->
 #     bundler.bundle()
@@ -27,13 +38,3 @@ gulp.task "browserify", ->
 #   bundler = watchify(sourceFile)
 #   bundler.on "update", rebundle
 #   rebundle()
-
-gulp.task 'watch', ->
-  gulp.watch sourceFile, ['browserify']
-
-gulp.task "default", [
-  "browserify"
-  "watch"
-]
-
-

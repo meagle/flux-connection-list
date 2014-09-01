@@ -21,7 +21,7 @@ ConnectionList = React.createClass
   render: ->
     # rootNode = @state.nodes
     # selected = @state.selected
-    return `<span>Hello World!!</span>`
+    return `<span>Hello World!!!</span>`
 
   
   #Event handler for 'change' events coming from the MessageStore
