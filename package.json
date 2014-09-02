@@ -21,7 +21,8 @@
     "dummy-json": "0.0.2",
     "react": "0.11.1",
     "bluebird": "2.3.x",
-    "request": "2.40.x"
+    "request": "2.40.x",
+    "flux": "2.0.x"
   },
   "devDependencies": {
     "gulp": "~3.8.7",

@@ -1,36 +1,28 @@
 `/** @jsx React.DOM */`
 
+UserStore = require '../stores/UserStore'
+UserActions = require '../actions/UserActions'
 React = require 'react'
 
 getStateFromStores = ->
-  # nodes: OutlineStore.getAll()
-  # selected: OutlineStore.getSelected()
-
-# OutlineStore = require("../stores/OutlineStore")
-# Node = require("./Node.react")
-
+  users: UserStore.getAll()
 
 ConnectionList = React.createClass
   getInitialState: ->
-    # TODO: get state from stores instead of passing it down from app.coffee
-    # getStateFromStores()
-    users: @props.users
+    getStateFromStores()
 
   componentDidMount: ->
-    # OutlineStore.addChangeListener @_onChange
+    UserStore.addChangeListener @_onChange
+    UserActions.getAll()
 
   createUserItem: (user) ->
     `<li key={user.id}>{user.firstName}</li>`
 
   render: ->
-    # rootNode = @state.nodes
-    # selected = @state.selected
-    
-    `<ul>{this.props.users.map(this.createUserItem)}</ul>`
-
+    `<ul>{this.state.users.map(this.createUserItem)}</ul>`
   
   #Event handler for 'change' events coming from the MessageStore
-  # _onChange: ->
-  #   @setState getStateFromStores()
+  _onChange: ->
+    @setState getStateFromStores()
 
 module.exports = ConnectionList
