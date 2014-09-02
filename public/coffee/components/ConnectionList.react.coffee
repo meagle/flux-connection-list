@@ -12,16 +12,21 @@ getStateFromStores = ->
 
 ConnectionList = React.createClass
   getInitialState: ->
-    getStateFromStores()
+    # TODO: get state from stores instead of passing it down from app.coffee
+    # getStateFromStores()
+    users: @props.users
 
   componentDidMount: ->
     # OutlineStore.addChangeListener @_onChange
-    return
+
+  createUserItem: (user) ->
+    `<li key={user.id}>{user.firstName}</li>`
 
   render: ->
     # rootNode = @state.nodes
     # selected = @state.selected
-    return `<span>Hello World!!!</span>`
+    
+    `<ul>{this.props.users.map(this.createUserItem)}</ul>`
 
   
   #Event handler for 'change' events coming from the MessageStore

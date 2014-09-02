@@ -43130,6 +43130,7 @@ module.exports = Request
 
 }).call(this,require("oMfpAn"),require("buffer").Buffer)
 },{"./lib/cookies":228,"./lib/copy":229,"./lib/debug":230,"./lib/getSafe":231,"./lib/optional":232,"buffer":51,"crypto":55,"forever-agent":233,"http":61,"json-stringify-safe":234,"mime-types":236,"net":36,"node-uuid":239,"oMfpAn":67,"qs":240,"querystring":71,"stream":73,"url":80,"util":82,"zlib":50}],246:[function(require,module,exports){
+/** @jsx React.DOM */;
 var ConnectionList, Promise, React, request;
 
 React = require('react');
@@ -43140,10 +43141,12 @@ request = Promise.promisify(require('request'));
 
 ConnectionList = require('./components/ConnectionList.react');
 
-request("http://localhost:3000/users").then(function(contents) {
-  return console.log(contents);
-})["catch"](clientError, function(e) {
-  return console.log('Error', e);
+request("http://localhost:3000/users").then(function(users) {
+  users.shift(0);
+  users = JSON.parse(users);
+  return React.renderComponent(ConnectionList({
+    users: users
+  }), document.getElementById('connection-list'));
 });
 
 
@@ -43158,11 +43161,16 @@ getStateFromStores = function() {};
 
 ConnectionList = React.createClass({displayName: 'ConnectionList',
   getInitialState: function() {
-    return getStateFromStores();
+    return {
+      users: this.props.users
+    };
   },
   componentDidMount: function() {},
+  createUserItem: function(user) {
+    return React.DOM.li({key: user.id}, user.firstName);
+  },
   render: function() {
-    return React.DOM.span(null, "Hello World!!!");
+    return React.DOM.ul(null, this.props.users.map(this.createUserItem));
   }
 });
 
