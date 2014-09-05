@@ -5,16 +5,21 @@ source = require("vinyl-source-stream")
 coffeeify = require "coffeeify"
 reactify = require "reactify"
 rename = require 'gulp-rename'
-sourceFiles = ["./public/coffee/**/*.coffee"]
-sourceFile = ["./public/coffee/app.coffee"]
+sourceFiles = ["./public/coffee/**/*.{coffee,cjsx}"]
+sourceFile = ["./public/coffee/app.cjsx"]
 destFolder = "./public/js/"
 destFile = "bundle.js"
 
 gulp.task "browserify", ->
   gulp.src(sourceFile, { read: false })
     .pipe(browserify({
-      transform: ['coffeeify', 'reactify'],
-      extensions: ['.coffee']
+      transform: [
+        'coffee-reactify'
+      ],
+      extensions: [
+        '.coffee'
+        '.cjsx'
+      ]
     }))
     .pipe(rename(destFile))
     .pipe gulp.dest(destFolder)

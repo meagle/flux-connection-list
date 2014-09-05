@@ -1,8 +1,10 @@
-AppDispatcher = require("../dispatcher/AppDispatcher")
-EventEmitter = require("events").EventEmitter
-merge = require("react/lib/merge")
-Promise = require 'bluebird'
-request = Promise.promisify require 'request'
+AppDispatcher     = require("../dispatcher/AppDispatcher")
+EventEmitter      = require("events").EventEmitter
+merge             = require("react/lib/merge")
+PresenceStore     = require '../stores/PresenceStore'
+Promise           = require 'bluebird'
+_                 = require 'underscore'
+request           = Promise.promisify require 'request'
 
 CHANGE_EVENT = "change"
 
@@ -17,10 +19,23 @@ UserStore = merge(EventEmitter::,
     @on CHANGE_EVENT, callback
 
   getAll: ->
-    _users
+    _.sortBy _users, (user)-> [user.presence, user.firstName, user.lastName]
 
   getSelected: ->
     _selected
+
+  updateUserById: (id, properties) ->
+    foundIndex = null
+    _users.forEach (user, index) ->
+      if user.id is id
+        foundIndex = index
+      return
+
+    user = _users[foundIndex]
+
+    newUser = _.extend {}, user, properties
+
+    _users[foundIndex] = newUser
 )
 
 UserStore.dispatchToken = AppDispatcher.register((payload) ->
@@ -36,25 +51,30 @@ UserStore.dispatchToken = AppDispatcher.register((payload) ->
         _users = JSON.parse users
         UserStore.emitChange()
       )
+      break
+    
+    when "UPDATE_PRESENCE"
 
-    # when "SELECT_NODE"
-    #   _selected = action.key
-    #   UserStore.emitChange()
+      AppDispatcher.waitFor [PresenceStore.dispatchToken]
+      
+      userId   = action.userId
+      presence = PresenceStore.get userId
+      UserStore.updateUserById userId, presence: presence
 
-    # when "NEXT_VISIBLE_NODE"
-    #   _selected = _selected + 1  unless typeof _selected is "undefined"
-    #   console.log "just simple increase:" + _selected
-    #   UserStore.emitChange()
+      UserStore.emitChange()
+      break
 
-    # when "PREVIOUS_VISIBLE_NODE"
-    #   _selected = _selected - 1  unless typeof _selected is "undefined"
-    #   console.log "just simple decrease:" + _selected
-    #   UserStore.emitChange()
+    when "UPDATE_PRESENCES"
 
-    # when "TOGGLE_COLLAPSE_NODE"
-    #   _nodes.collapsed = not _nodes.collapsed
-    #   console.log "toggling collapse on key:" + _selected
-    #   UserStore.emitChange()
+      AppDispatcher.waitFor [PresenceStore.dispatchToken]
+      
+      for userPresence in action.userPresences
+        userId   = userPresence.userId
+        presence = PresenceStore.get userId
+        UserStore.updateUserById userId, presence: presence
+      
+      UserStore.emitChange()
+      break
 )
 
 module.exports = UserStore

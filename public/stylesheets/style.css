@@ -1,0 +1,39 @@
+body {
+  font-family: 'Arial';
+  margin-left: 50px;
+}
+
+#connection-list ul {
+  margin: 20px 0;
+  width: 183px;
+  height: 650px;
+  overflow: scroll;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+#connection-list ul > li {
+  list-style-type: none;
+  margin: 5px 0;
+  position: relative;
+  border-bottom: 1px solid lightgray;
+}
+
+.presence.offline {
+  background: lightgray;
+}
+
+.presence.online {
+  background: lightgreen;
+}
+
+.presence.away {
+  background: yellow;
+}
+
+.presence {
+  position: absolute;
+  right: 0;
+  width: 6px;
+  height: 21px;
+  top: -5px;
+}

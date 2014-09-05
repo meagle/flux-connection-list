@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+var _ = require('underscore');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -21,6 +22,39 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+server.listen(3001);
+
+var presenceGenerationInterval = null;
+var batchInterval = null;
+
+var presenceUpdates = [];
+
+io.on('connection', function (socket) {
+  socket.emit('connected', { msg: 'Hello socket user!' });
+  socket.on('start:presence:storm', function (data) {
+    presenceGenerationInterval = setInterval(function(){
+      // update presence for random user
+      userId = _.random(0, 199);
+      presences = ['online', 'away', 'offline']
+      presenceUpdates.push({userId: userId, presence: presences[_.random(0, 2)]});
+    }, 100);
+
+    batchInterval = setInterval(function () {
+      socket.emit('presence:update', presenceUpdates);
+      presenceUpdates.length = 0;
+    }, 1000);
+    
+  });
+
+  socket.on('stop:presence:storm', function (data){
+    clearInterval(presenceGenerationInterval);
+    clearInterval(batchInterval);
+  })
+});
 
 app.use('/', routes);
 app.use('/users', users);
