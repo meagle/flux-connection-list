@@ -38,15 +38,15 @@ io.on('connection', function (socket) {
   socket.on('start:presence:storm', function (data) {
     presenceGenerationInterval = setInterval(function(){
       // update presence for random user
-      userId = _.random(0, 199);
+      userId = _.random(0, 649);
       presences = ['online', 'away', 'offline']
       presenceUpdates.push({userId: userId, presence: presences[_.random(0, 2)]});
-    }, 100);
+    }, 50);
 
     batchInterval = setInterval(function () {
       socket.emit('presence:update', presenceUpdates);
       presenceUpdates.length = 0;
-    }, 1000);
+    }, 100);
     
   });
 

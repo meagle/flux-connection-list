@@ -12,7 +12,7 @@ router.get('/:numberOfPeople', function(req, res) {
 
 router.get('/', function(req, res) {
   var template = fs.readFileSync('./templates/dummy-connections.hbs', {encoding: 'utf8'});
-  var result = dummy.parse(template, {data: {numberOfPeople: 200}});
+  var result = dummy.parse(template, {data: {numberOfPeople: 750}});
   res.set('Content-Type', 'application/json');
   res.send(JSON.parse(result));
 });
