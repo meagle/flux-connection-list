@@ -46,7 +46,7 @@ io.on('connection', function (socket) {
     batchInterval = setInterval(function () {
       socket.emit('presence:update', presenceUpdates);
       presenceUpdates.length = 0;
-    }, 100);
+    }, 200);
     
   });
 

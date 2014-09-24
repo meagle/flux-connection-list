@@ -16,7 +16,10 @@ User = React.createClass
 
   render: ->
     <li>
-      <span>{@props.user.firstName} {@props.user.lastName} - {@props.user.id}</span>
+      <div className="avatar">
+        {@props.user.firstName.charAt(0)}{@props.user.lastName.charAt(0)}
+      </div>
+      <span>{@props.user.firstName} {@props.user.lastName}</span> <span className="user-id">{@props.user.id}</span>
       <Presence presence={@props.user.presence}/>
     </li>
 

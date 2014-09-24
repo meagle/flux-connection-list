@@ -46928,7 +46928,11 @@ User = React.createClass({
     return nextProps.user !== this.props.user;
   },
   render: function() {
-    return React.DOM.li(null, React.DOM.span(null, this.props.user.firstName, " ", this.props.user.lastName, " - ", this.props.user.id), Presence({
+    return React.DOM.li(null, React.DOM.div({
+      "className": "avatar"
+    }, this.props.user.firstName.charAt(0), this.props.user.lastName.charAt(0)), React.DOM.span(null, this.props.user.firstName, " ", this.props.user.lastName), " ", React.DOM.span({
+      "className": "user-id"
+    }, this.props.user.id), Presence({
       "presence": this.props.user.presence
     }));
   }

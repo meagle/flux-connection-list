@@ -5,7 +5,7 @@ body {
 
 #connection-list ul {
   margin: 20px 0;
-  width: 183px;
+  width: 300px;
   height: 650px;
   overflow: scroll;
   border: 1px solid rgba(128, 128, 128, 0.2);
@@ -19,7 +19,7 @@ body {
 }
 
 .presence.offline {
-  background: lightgray;
+  background: #999;
 }
 
 .presence.online {
@@ -33,7 +33,30 @@ body {
 .presence {
   position: absolute;
   right: 0;
-  width: 6px;
-  height: 21px;
+  width: 20px;
+  height: 38px;
   top: -5px;
+}
+
+.user-id {
+  font-size: .8em;
+  color: lightgrey;
+  position: absolute;
+  right: 38px;
+  top: 8px;
+}
+
+.avatar {
+  margin: 2px;
+  border-radius: 60px;
+  background-color: #aaa;
+  width: 29px;
+  height: 22px;
+  margin-right: 10px;
+  margin-left: 5px;
+  color: whitesmoke;
+  padding: 7px 0 0 0;
+  display: inline-block;
+  font-size: 14px;
+  text-align: center;
 }
